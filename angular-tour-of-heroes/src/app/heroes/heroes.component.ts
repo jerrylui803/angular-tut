@@ -31,4 +31,21 @@ export class HeroesComponent {
     .subscribe(heroes => this.heroes = heroes);
   }
 
+  add(name: string): void {
+    name = name.trim();
+    if (!name) { return ; }
+    this.heroService.addHero( {name} as Hero)
+      .subscribe(hero => {
+        // puch in the heroes list for display
+        this.heroes.push(hero)
+    })
+  }
+
+  delete(hero: Hero): void {
+    // probably not safe - if the delete request fails, then the local heroes
+    // list will be wrong
+    this.heroes = this.heroes.filter(h => h !== hero);
+    this.heroService.deleteHero(hero.id).subscribe();
+  }
+
 }
